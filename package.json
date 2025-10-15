@@ -1,0 +1,28 @@
+{
+  "name": "analytics-service",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "typecheck": "tsc --noEmit",
+    "build": "tsc -p tsconfig.json",
+    "dev": "nodemon --watch src --ext ts --ignore dist --exec \"npm run build && node ./dist/index.js\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@types/node": "^24.7.1",
+    "nodemon": "^2.0.22",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "@clickhouse/client": "^1.12.1",
+    "@types/express": "^5.0.3",
+    "@types/pg": "^8.15.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0"
+  }
+}
