@@ -1,6 +1,6 @@
 import client, { pool } from "../db/db.index.js"
 
-const pgclient = await pool.connect();
+// const pgclient = await pool.connect();
 
 export async function GetAllData() {
     const resultSet = await client.query({
