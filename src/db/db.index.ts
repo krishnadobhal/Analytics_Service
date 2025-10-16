@@ -1,8 +1,16 @@
-import { createClient } from '@clickhouse/client' // or '@clickhouse/client-web'
+import { createClient } from '@clickhouse/client'
 import dotenv from 'dotenv'
-
+import { Pool } from 'pg'
 
 dotenv.config();
+
+export const pool = new Pool({
+    connectionString: process.env.POSTGRES_URL,
+    max: 20,
+    idleTimeoutMillis: 30000,
+    connectionTimeoutMillis: 2000,
+    maxLifetimeSeconds: 60
+})
 
 const client = createClient({
     url: process.env.CLICKHOUSE_URL || '',
