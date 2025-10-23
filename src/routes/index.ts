@@ -1,13 +1,14 @@
 import express from 'express'
 import dotenv from 'dotenv'
 import type { Request, Response } from 'express'
-const { GetAllData, UniqueIPs, GetClicks, GetBrowserCount } = await import('../service/index.js');
+import { GetDataByEmail } from '../service/index.js';
+const { GetAllData, UniqueIPs, GetClicks, GetBrowserCount } = await import('../repository/Analysis.js');
 
 const router = express.Router();
 
-router.get('/data', async (req: Request, res: Response) => {
+router.get('/user-data', async (req: Request, res: Response) => {
     try {
-        const data = await GetAllData();
+        const data = await GetDataByEmail(req.headers.authorization || '');
         res.status(200).json(data);
     } catch (error) {
         console.error('Error fetching data:', error);

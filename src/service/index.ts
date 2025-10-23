@@ -1,44 +1,12 @@
-import client, { pool } from "../db/db.index.js"
+import { GetAllDataByEmail } from "../repository/Analysis.js";
+import { GetUserByEmail } from "../repository/user.js";
+import type { User } from "../types/types.js";
+import { DecodeToken } from "./jwt.js";
 
-// const pgclient = await pool.connect();
-
-export async function GetAllData() {
-    const resultSet = await client.query({
-        query: 'SELECT * FROM analytics',
-        format: 'JSONEachRow',
-    })
-    const dataset = await resultSet.json()
-    return dataset
-}
-
-export async function UniqueIPs() {
-    const resultSet = await client.query({
-        query: 'SELECT COUNT(DISTINCT ipv4) AS unique_ips FROM analytics',
-        format: 'JSONEachRow',
-    })
-    const dataset = await resultSet.json()
-    return dataset
-}
-
-export async function GetClicks() {
-    const resultSet = await client.query({
-        query: `SELECT short_code,COUNT() AS total_clicks FROM analytics 
-        GROUP BY short_code
-        ORDER BY total_clicks DESC`,
-        format: 'JSONEachRow',
-    })
-    const dataset = await resultSet.json()
-    return dataset
-}
-
-export async function GetBrowserCount() {
-    const resultSet = await client.query({
-        query: `SELECT browser, count() AS total_clicks
-                FROM analytics
-                GROUP BY browser
-                ORDER BY total_clicks DESC`,
-        format: 'JSONEachRow'
-    })
-    const dataset = await resultSet.json()
-    return dataset
+export async function GetDataByEmail(token: string) {
+    const decodedToken = DecodeToken(token)
+    // console.log(decodedToken);
+    const userData: User = await GetUserByEmail(decodedToken.sub);
+    const data = await GetAllDataByEmail(userData.username);
+    return data;
 }
