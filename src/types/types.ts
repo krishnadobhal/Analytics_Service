@@ -1,6 +1,4 @@
 import type { BaseQueryParams, DataFormat, ResultSet } from "@clickhouse/client"
-import e from "express"
-import { Interface } from "readline"
 
 export interface QueryParams extends BaseQueryParams {
     // Query to execute that might return some data.
